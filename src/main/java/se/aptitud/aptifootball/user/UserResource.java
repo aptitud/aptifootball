@@ -1,6 +1,7 @@
 package se.aptitud.aptifootball.user;
 
 import com.codahale.metrics.annotation.Timed;
+import se.aptitud.aptifootball.player.Player;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,9 +15,10 @@ import java.util.List;
 public class UserResource {
 
     @GET
+    @Path("list")
     @Timed
     public List<User> listUsers(){
-        return Collections.singletonList(new User("1231241"));
+        return Collections.singletonList(new User("1231241", "Nisse", Collections.singletonList(new Player(231241, "neymar", "cf", 9))));
     }
 
 }
