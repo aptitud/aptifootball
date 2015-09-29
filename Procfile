@@ -1,1 +1,1 @@
-web: java -Ddw.server.connector.port=$PORT -Ddw.accessKey=$XS_ACCESS_KEY -Ddw.url=$XS_URL -jar ./target/aptifootball-1.0-SNAPSHOT.jar server
+web: java -Ddw.server.applicationConnectors[0].port=$PORT -Ddw.accessKey=$XS_ACCESS_KEY -Ddw.url=$XS_URL -jar ./target/aptifootball-1.0-SNAPSHOT.jar server
