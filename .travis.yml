@@ -1,3 +1,10 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
+deploy:
+  provider: heroku
+  api_key:
+    secure: mvc67mTF/Z/PEo9deOEfPI1uttbTztuJM2GHID/alBysxE0DKGXM3trP8s8E92o6pJW89k/HyyMWivSE2a6PB571Inc2g7JGO3V5cVhv0cdYpo3rvc3OLw8UKAiGiIPLbHr7SNP2ypqRMFVQ2BnWX0JNdR6oNNnmo48HQo/VZm+U1cW1aG2pQBbU6PXWnnHDGM1KV7IaW4bAQavA/3PqwgO7QfxVwrr5IBXOibdLmNDJZiOYSKh+ddHt7gj+qcZvRd/fm9R2Q+x0kJ/NA/PI4hQh2OZ4PZQcPTGCz+ZBCUKAFtbyRlAWyxMqU0UMc92TUXBlQXivzewECKhdqhksMQ0BAoPwcCG1GaiGh2+JboUJMZkiyvi4xIFyzAOnud5QRZuPB3UBm9jJRG88gcEc5ZLE+rsyj9Vg29gRGgg3/gFlo/wx4SK5+vetDHuMs8HRArQcBlMJ1/r3S0vrZz1AHtA24Pf47NvPH86+IR+rrFzCx+1LGHkgXqblCTZZAV16jz5+OUZqH11Z8pIy1te5SL+Me7K98Jg3ps+76kubpQ5fDKYuzgs3vlYCl2hlWLFEQti08cgPqh9Fj/HyW/zX0fhSaEqkcsfwGAVeGIY4T5ZBo9MfoZ9uMQLzdMHlTPzO46AwOnMnfyRVvmS43sF9SRsv//oIVjMCmDTJ+NrauEc=
+  app: aptifootball-api
+  on:
+    repo: aptitud/aptifootball
