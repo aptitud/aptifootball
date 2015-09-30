@@ -29,13 +29,11 @@ import static org.junit.Assert.assertThat;
 
 public class Players {
 
-    public static final String PLAYERS = "testPlayers";
     private Cache testCache;
 
 
     @Before
     public void setUp() {
-        CacheManager cacheManager = CacheManager.create();
         testCache = new Cache(
                 new CacheConfiguration("testPlayerCache", 1000)
                         .memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LFU)
@@ -44,10 +42,12 @@ public class Players {
                         .timeToIdleSeconds(300)
                         .diskExpiryThreadIntervalSeconds(120)
                         .persistence(new PersistenceConfiguration().strategy(LOCALTEMPSWAP)));
-
-        cacheManager.addCache(testCache);
-
     }
+    @After
+    public void tearDown(){
+        testCache.getCacheManager().removeCache("testPlayerCache");
+    }
+
 
 
 
@@ -64,8 +64,6 @@ public class Players {
 
     @Test
     public void itemsShouldBeCahced(){
-
-
         PlayerRepo repo = new PlayerRepo(System.getProperty("key"), System.getProperty("url"), testCache );
         repo.players("3");
         assertThat(testCache.getKeys().isEmpty(), is(false));

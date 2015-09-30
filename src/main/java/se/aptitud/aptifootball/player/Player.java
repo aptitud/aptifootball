@@ -3,7 +3,9 @@ package se.aptitud.aptifootball.player;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable{
 
     @JsonProperty
     public final int id;
