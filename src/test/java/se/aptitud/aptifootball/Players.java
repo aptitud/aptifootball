@@ -6,6 +6,11 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.PersistenceConfiguration;
+import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import org.bson.BsonDocument;
 import org.bson.Document;
 import org.junit.After;
@@ -15,8 +20,8 @@ import org.junit.Test;
 import se.aptitud.aptifootball.player.Player;
 import se.aptitud.aptifootball.player.PlayerRepo;
 import java.util.List;
-import java.util.stream.Stream;
 
+import static net.sf.ehcache.config.PersistenceConfiguration.Strategy.*;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -25,48 +30,46 @@ import static org.junit.Assert.assertThat;
 public class Players {
 
     public static final String PLAYERS = "testPlayers";
-    private MongoDatabase db;
-    private MongoClient mongoClient;
+    private Cache testCache;
+
 
     @Before
     public void setUp() {
+        CacheManager cacheManager = CacheManager.create();
+        testCache = new Cache(
+                new CacheConfiguration("testPlayerCache", 1000)
+                        .memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LFU)
+                        .eternal(false)
+                        .timeToLiveSeconds(600)
+                        .timeToIdleSeconds(300)
+                        .diskExpiryThreadIntervalSeconds(120)
+                        .persistence(new PersistenceConfiguration().strategy(LOCALTEMPSWAP)));
 
-        mongoClient = new MongoClient("192.168.59.103", 27017);
-        db = mongoClient.getDatabase("aptifootball");
-        db.createCollection(PLAYERS);
+        cacheManager.addCache(testCache);
 
     }
-    @After
-    public void tearDown(){
-        db.getCollection(PLAYERS).drop();
-    }
+
 
 
     @Test
-    @Ignore
     public void getAllPlayers(){
-        PlayerRepo repo = new PlayerRepo(System.getProperty("key"), System.getProperty("url"));
+        PlayerRepo repo = new PlayerRepo(System.getProperty("key"), System.getProperty("url"), testCache);
         List<Player> players = repo.players("3");
+        assertThat(players.size(), is(not(0)));
+
+        players = repo.players("3");
         assertThat(players.size(), is(not(0)));
     }
 
+
     @Test
-    public void playersAreSavedWithInternalId(){
-        MongoCollection<Document> players = db.getCollection(PLAYERS);
-        Document player = new Document("value", "data");
-        players.insertOne(player);
-        long count = players.count();
-        assertThat(count, is(1L));
-        FindIterable<Document> documents = players.find(new Document("value", "data"));
-        documents.forEach((Block<Document>) document -> {
-            assertThat(document.get("_id"), not(nullValue()));
-        });
+    public void itemsShouldBeCahced(){
 
 
+        PlayerRepo repo = new PlayerRepo(System.getProperty("key"), System.getProperty("url"), testCache );
+        repo.players("3");
+        assertThat(testCache.getKeys().isEmpty(), is(false));
     }
-
-
-
 
 
 }

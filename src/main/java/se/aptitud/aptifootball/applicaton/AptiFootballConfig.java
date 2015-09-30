@@ -13,7 +13,6 @@ public class AptiFootballConfig extends Configuration {
     @JsonProperty
     private String url;
 
-
     public void setUrl(String url) {
         this.url = url;
     }
