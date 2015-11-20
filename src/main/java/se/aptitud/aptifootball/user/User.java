@@ -1,27 +1,41 @@
 package se.aptitud.aptifootball.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import se.aptitud.aptifootball.player.Player;
+import se.aptitud.aptifootball.team.Team;
 
+import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by jelmstrom on 25/09/15.
- */
-public class User {
+import static java.util.stream.Collectors.toMap;
 
-    @JsonProperty
-    public final String id;
+public class User implements Serializable{
+
+    @JsonProperty(required =false)
+    public final long id;
 
     @JsonProperty
     public final String username;
 
     @JsonProperty
-    public final List<Player> players;
+    public final String email;
 
-    public User(String id, String username, List<Player> players) {
+    @JsonProperty(required = false)
+    public final List<Team> teams;
+
+
+    public User() {
+        this.id = -1;
+        this.username = "";
+        this.email = "";
+        this.teams = Collections.emptyList();
+    }
+
+    public User(long id, String username, String email, List<Team> teams) {
         this.id = id;
         this.username = username;
-        this.players = players;
+        this.email = email;
+        this.teams = teams;
     }
+
 }

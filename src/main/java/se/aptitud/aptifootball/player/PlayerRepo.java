@@ -11,15 +11,17 @@ import se.aptitud.aptifootball.AptiFootballRepo;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 import static net.sf.ehcache.config.PersistenceConfiguration.Strategy.LOCALTEMPSWAP;
 
 public class PlayerRepo extends AptiFootballRepo {
+    private final String cacheName;
 
     public PlayerRepo(String key, String url) {
-        super(key, url,
+        this(key, url,
         new Cache(
                 new CacheConfiguration("playerCache", 1000)
                         .memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LFU)
@@ -34,10 +36,12 @@ public class PlayerRepo extends AptiFootballRepo {
 
     public PlayerRepo(String key, String url, Cache cache) {
         super(key, url, cache);
+        this.cacheName=cache.getName();
     }
 
     @SuppressWarnings("unchecked")
     public List<Player> players(String leagueId){
+        Cache cache = manager.getCache(cacheName);
         Element players = cache.get(leagueId);
         List<Player>  playerCache = players == null?null: (List<Player>) players.getObjectValue();
         if(playerCache == null  ||  playerCache.isEmpty()) {
@@ -54,7 +58,7 @@ public class PlayerRepo extends AptiFootballRepo {
     }
 
     private Player convertDtoToPlayer(GetPlayersResultDto dto) {
-        return new Player(dto.getId(), dto.getName(), dto.getPosition(), dto.getPlayerNumber());
+        return new Player(dto.getId(), dto.getName(), Position.valueOf(dto.getPosition()), dto.getPlayerNumber(), Collections.EMPTY_LIST);
     }
 
 

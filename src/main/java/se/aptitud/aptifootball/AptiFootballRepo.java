@@ -10,8 +10,7 @@ import net.sf.ehcache.CacheManager;
 public class AptiFootballRepo {
 
     protected XmlSoccerService xmlSoccerService;
-    protected Cache cache;
-    private static CacheManager manager = CacheManager.create();
+    protected static CacheManager manager = CacheManager.create();
 
 
     public AptiFootballRepo(String key, String url) {
@@ -24,10 +23,7 @@ public class AptiFootballRepo {
         this(key, url);
         Cache existing = manager.getCache(newCache.getName());
         if(existing == null) {
-            this.cache = newCache;
-            manager.addCache(this.cache);
-        } else {
-            this.cache = existing;
+            manager.addCache(newCache);
         }
     }
 }

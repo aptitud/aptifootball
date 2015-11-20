@@ -20,7 +20,7 @@ public class AptiFootball extends Application<AptiFootballConfig> {
 
     @Override
     public void run(AptiFootballConfig aptiFootballConfig, Environment environment) throws Exception {
-        environment.jersey().register(new UserResource());
+        environment.jersey().register(new UserResource(aptiFootballConfig));
         environment.jersey().register(new PlayerResource(aptiFootballConfig));
 
         final Dynamic cors =

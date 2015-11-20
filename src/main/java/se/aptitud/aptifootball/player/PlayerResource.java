@@ -25,9 +25,7 @@ public class PlayerResource {
     @Path("{leagueId}")
     @Timed
     public List<Player> playersByLeague(@PathParam("leagueId") String leagueId) {
-        return new PlayerRepo(config.getAccessKey(), config.getUrl()).players(leagueId
-        );
-
+        return new PlayerRepo(config.getAccessKey(), config.getUrl()).players(leagueId);
     }
 
 }
