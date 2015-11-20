@@ -35,9 +35,7 @@ public class UserResource {
     @Path("list")
     @Timed
     public List<User> listUsers(){
-        int id = 1231241;
-        Team team = new Team(1, id, singletonList(new Player(231241, "neymar", Position.FORWARD, 9, singletonList(new Score(1, 10)))), Formation.FOUR_FOUR_TWO);
-        return singletonList(new User(id, "Nisse", "", singletonList(team)));
+       return repo.listUsers();
     }
 
     @POST

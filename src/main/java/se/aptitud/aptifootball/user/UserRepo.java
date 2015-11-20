@@ -7,6 +7,10 @@ import net.sf.ehcache.config.PersistenceConfiguration;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import se.aptitud.aptifootball.AptiFootballRepo;
 
+import java.util.*;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 import static net.sf.ehcache.config.PersistenceConfiguration.Strategy.LOCALTEMPSWAP;
 
 public class UserRepo extends AptiFootballRepo {
@@ -38,4 +42,14 @@ public class UserRepo extends AptiFootballRepo {
 
     }
 
+    public List<User> listUsers() {;
+        List keys = manager.getCache(USER_CACHE).getKeys();
+        Map<Object, Element> all = manager.getCache(USER_CACHE).getAll(keys);
+        List<User> collect = all.entrySet().stream().map(entry -> (User) entry.getValue().getObjectValue()).collect(toList());
+        return collect;
+    }
+
+    public void cleanUp() {
+        manager.getCache(USER_CACHE).removeAll();
+    }
 }
