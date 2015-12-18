@@ -3,6 +3,10 @@ package se.aptitud.aptifootball.league;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import se.aptitud.aptifootball.AptiFootballRepo;
+import se.aptitud.aptifootball.user.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jelmstrom on 18/12/15.
@@ -25,8 +29,26 @@ public class MongoLeagueRepository extends AptiFootballRepo implements LeagueRep
 
     }
 
-    private League createLeague(Document storetLeague) {
-        return new League(storetLeague.get("id").toString(),storetLeague.get("cretor").toString(), storetLeague.get("name").toString());
+
+    public List<League> leagues(String user) {
+        Document doc = new Document("type", "league").append("creator", user);
+        FindIterable<Document> documents = aptifootball.find(doc);
+        List<League> leagues = new ArrayList<>();
+        documents.spliterator().forEachRemaining( league -> leagues.add(createLeague(league)));
+        return leagues;
+    }
+
+
+    public List<League> leagues() {
+        Document doc = new Document("type", "league");
+        FindIterable<Document> documents = aptifootball.find(doc);
+        List<League> leagues = new ArrayList<>();
+        documents.spliterator().forEachRemaining( league -> leagues.add(createLeague(league)));
+        return leagues;
+    }
+
+    private League createLeague(Document storedLeague) {
+        return new League(storedLeague.get("_id").toString(),storedLeague.get("creator").toString(), storedLeague.get("name").toString());
 
     }
 }

@@ -1,14 +1,15 @@
 package se.aptitud.aptifootball.league;
 
+import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import se.aptitud.aptifootball.applicaton.AptiFootballConfig;
+import se.aptitud.aptifootball.user.User;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("aptifootball/league")
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,8 +23,25 @@ public class LeagueResource {
 
     @POST
     public String newLeague(@RequestBody League newLeague){
-        logger.debug("creting " + newLeague.name);
+        logger.debug("creating " + newLeague.name);
         return leagueRepository.create(newLeague).id;
+    }
+
+
+    @GET
+    @Path("{creator}")
+    @Timed
+    public List<League> userLeagues(@PathParam("creator") String creator){
+        logger.debug("reading leagues from  " + creator);
+        return leagueRepository.leagues(creator);
+    }
+
+    @GET
+    @Path("list")
+    @Timed
+    public List<League> allLeagues(){
+        logger.debug("reading leagues");
+        return leagueRepository.leagues();
     }
 
 }
