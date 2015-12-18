@@ -17,6 +17,9 @@ public class AptiFootballConfig extends Configuration {
     @JsonProperty
     private String databaseUrl;
 
+    @JsonProperty
+    private String collectionName;
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -36,6 +39,14 @@ public class AptiFootballConfig extends Configuration {
 
     public void setDatabaseUrl(String databaseUrl) {
         this.databaseUrl = databaseUrl;
+    }
+
+    public String getCollectionName() {
+        return collectionName;
+    }
+
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
     }
 }
 

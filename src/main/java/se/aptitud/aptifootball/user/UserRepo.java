@@ -5,6 +5,7 @@ import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.aptitud.aptifootball.AptiFootballRepo;
+import se.aptitud.aptifootball.applicaton.AptiFootballConfig;
 
 import java.util.*;
 
@@ -12,9 +13,8 @@ public class UserRepo extends AptiFootballRepo {
 
     private final Logger log = LoggerFactory.getLogger(UserRepo.class);
 
-
-    public UserRepo(String key, String url, String dbUrl) {
-        super(key, url, dbUrl);
+    public UserRepo(AptiFootballConfig config) {
+        super(config);
     }
 
     public User addUser(User user){

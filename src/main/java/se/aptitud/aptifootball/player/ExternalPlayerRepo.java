@@ -8,6 +8,7 @@ import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.config.PersistenceConfiguration;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import se.aptitud.aptifootball.AptiFootballRepo;
+import se.aptitud.aptifootball.applicaton.AptiFootballConfig;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,38 +18,16 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 import static net.sf.ehcache.config.PersistenceConfiguration.Strategy.LOCALTEMPSWAP;
 
-public class PlayerRepo extends AptiFootballRepo {
-    private final String cacheName;
+public class ExternalPlayerRepo extends AptiFootballRepo {
 
-    public PlayerRepo(String key, String url) {
-        this(key, url,
-        new Cache(
-                new CacheConfiguration("playerCache", 1000)
-                        .memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LFU)
-                        .eternal(false)
-                        .timeToLiveSeconds(600)
-                        .timeToIdleSeconds(300)
-                        .diskExpiryThreadIntervalSeconds(120)
-                        .persistence(new PersistenceConfiguration().strategy(LOCALTEMPSWAP)))
-        );
-
+    public ExternalPlayerRepo(AptiFootballConfig config) {
+       super(config);
     }
 
-    public PlayerRepo(String key, String url, Cache cache) {
-        super(key, url, cache);
-        this.cacheName=cache.getName();
-    }
 
     @SuppressWarnings("unchecked")
     public List<Player> players(String leagueId){
-        Cache cache = manager.getCache(cacheName);
-        Element players = cache.get(leagueId);
-        List<Player>  playerCache = players == null?null: (List<Player>) players.getObjectValue();
-        if(playerCache == null  ||  playerCache.isEmpty()) {
-            playerCache = readPlayerList(leagueId);
-            cache.put(new Element(leagueId, playerCache));
-        }
-        return playerCache;
+        return readPlayerList(leagueId);
     }
 
     private List<Player> readPlayerList(String leagueId) {

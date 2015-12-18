@@ -28,7 +28,7 @@ public class UserResource {
 
     public UserResource(AptiFootballConfig config) {
         this.config = config;
-        this.repo = new UserRepo(config.getAccessKey(), config.getUrl(), config.getDatabaseUrl());
+        this.repo = new UserRepo(config);
     }
 
     @GET

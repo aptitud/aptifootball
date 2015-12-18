@@ -8,5 +8,6 @@ public enum Position {
     DEFENDER,
     MIDFIELDER,
     FORWARD,
-    SUBSTITUTE;
+    SUBSTITUTE,
+    NA;
 }

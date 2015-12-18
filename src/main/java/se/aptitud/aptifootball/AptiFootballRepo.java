@@ -4,21 +4,29 @@ import com.github.pabloo99.xmlsoccer.api.service.XmlSoccerService;
 import com.github.pabloo99.xmlsoccer.client.XmlSoccerServiceImpl;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import org.bson.Document;
+import se.aptitud.aptifootball.applicaton.AptiFootballConfig;
 
 public class AptiFootballRepo {
 
     protected XmlSoccerService xmlSoccerService;
-    protected static CacheManager manager = CacheManager.create();
 
     protected final MongoClient mongoClient;
     protected final MongoDatabase db;
     protected final MongoCollection<Document> aptifootball;
+
+    public AptiFootballRepo(AptiFootballConfig config) {
+        this.xmlSoccerService = new XmlSoccerServiceImpl();
+        xmlSoccerService.setApiKey(config.getAccessKey());
+        xmlSoccerService.setServiceUrl(config.getUrl());
+        mongoClient = new MongoClient(new MongoClientURI(config.getDatabaseUrl()));
+        db = mongoClient.getDatabase("web_cv");
+        getOrInitCollection("aptifootball");
+        this.aptifootball = getOrInitCollection(config.getCollectionName());
+    }
 
 
     public AptiFootballRepo(String apiKey, String serviceUrl, String dbUrl) {
@@ -27,27 +35,18 @@ public class AptiFootballRepo {
         xmlSoccerService.setServiceUrl(serviceUrl);
         mongoClient = new MongoClient(new MongoClientURI(dbUrl));
         db = mongoClient.getDatabase("web_cv");
-        getOrInitCollection();
-        this.aptifootball = getOrInitCollection();
+        getOrInitCollection("aptifootball");
+        this.aptifootball = getOrInitCollection("aptifootball");
     }
 
-    private MongoCollection<Document> getOrInitCollection() {
-        MongoCollection<Document> aptifootballCollection = db.getCollection("aptifootball");
+    private MongoCollection<Document> getOrInitCollection(String collectionName) {
+        MongoCollection<Document> aptifootballCollection = db.getCollection(collectionName);
         if(aptifootballCollection == null ){
-            db.createCollection("aptifootball");
-            aptifootballCollection  = db.getCollection("aptifootball");
+            db.createCollection(collectionName);
+            aptifootballCollection  = db.getCollection(collectionName);
         }
 
         return  aptifootballCollection;
-    }
-
-
-    public AptiFootballRepo(String apiKey, String serviceUrl, Cache newCache) {
-        this(apiKey, serviceUrl, "mongodb://localhost:27017");
-        Cache existing = manager.getCache(newCache.getName());
-        if(existing == null) {
-            manager.addCache(newCache);
-        }
     }
 
 
