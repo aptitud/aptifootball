@@ -44,7 +44,7 @@ public class TeamTest {
     @Test
     public void canOnlyAddFourMidfielders() throws Exception {
 
-        validatePosition(team.formation.midfielders, Position.MIDFIELD);
+        validatePosition(team.formation.midfielders, Position.MIDFIELDER);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class TeamTest {
     @Test
     public void checkPointsAre4(){
 
-        validatePosition(team.formation.midfielders, Position.MIDFIELD);
+        validatePosition(team.formation.midfielders, Position.MIDFIELDER);
         assertThat(team.score(), is (4l));
 
     }

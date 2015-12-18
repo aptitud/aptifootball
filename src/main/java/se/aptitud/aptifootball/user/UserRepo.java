@@ -1,55 +1,42 @@
 package se.aptitud.aptifootball.user;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.config.CacheConfiguration;
-import net.sf.ehcache.config.PersistenceConfiguration;
-import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
+import com.mongodb.client.FindIterable;
+import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.aptitud.aptifootball.AptiFootballRepo;
 
 import java.util.*;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
-import static net.sf.ehcache.config.PersistenceConfiguration.Strategy.LOCALTEMPSWAP;
 
 public class UserRepo extends AptiFootballRepo {
 
-    public static final String USER_CACHE = "userCache";
-    private final String cacheName;
+    private final Logger log = LoggerFactory.getLogger(UserRepo.class);
 
-    public UserRepo(String key, String url, Cache newCache) {
-        super(key, url, newCache);
-        cacheName = newCache.getName();
+
+    public UserRepo(String key, String url, String dbUrl) {
+        super(key, url, dbUrl);
     }
 
-    public UserRepo(String key, String url) {
-        this(key, url, new Cache(
-                        new CacheConfiguration(USER_CACHE, 1000)
-                                .memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LFU)
-                                .eternal(false)
-                                .timeToLiveSeconds(600)
-                                .timeToIdleSeconds(300)
-                                .diskExpiryThreadIntervalSeconds(120)
-                                .persistence(new PersistenceConfiguration().strategy(LOCALTEMPSWAP)))
-        );
+    public User addUser(User user){
+        Document doc = new Document("email", user.email)
+                .append("type", "user")
+                .append("userName", user.username);
+        aptifootball.insertOne(doc);
+        FindIterable<Document> documents = aptifootball.find(doc);
+        Document storedUser = documents.iterator().next();
+        return createUserObject(storedUser);
     }
 
-    public long addUser(User user){
-        Cache cache = manager.getCache(USER_CACHE);
-        cache.put(new Element(user.id, user));
-        return user.id;
-
+    public List<User> listUsers() {
+        Document doc = new Document("type", "user");
+        FindIterable<Document> documents = aptifootball.find(doc);
+        List<User> users = new ArrayList<>();
+        documents.spliterator().forEachRemaining( user -> users.add(createUserObject(user)));
+        log.debug("users :" + users );
+        return users;
     }
 
-    public List<User> listUsers() {;
-        List keys = manager.getCache(USER_CACHE).getKeys();
-        Map<Object, Element> all = manager.getCache(USER_CACHE).getAll(keys);
-        List<User> collect = all.entrySet().stream().map(entry -> (User) entry.getValue().getObjectValue()).collect(toList());
-        return collect;
-    }
-
-    public void cleanUp() {
-        manager.getCache(USER_CACHE).removeAll();
+    private User createUserObject(Document mongoUser) {
+        return new User(mongoUser.get("_id").toString(), mongoUser.get("email").toString(), mongoUser.get("userName").toString(), null);
     }
 }

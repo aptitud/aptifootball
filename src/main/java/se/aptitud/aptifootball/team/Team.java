@@ -47,7 +47,7 @@ public class Team {
                 return (currentCount < formation.goalkeepers);
             case DEFENDER:
                 return (currentCount < formation.defenders);
-            case MIDFIELD:
+            case MIDFIELDER:
                 return currentCount < formation.midfielders;
             case FORWARD:
                 return (currentCount < formation.forwards) ;

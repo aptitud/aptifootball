@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toMap;
 public class User implements Serializable{
 
     @JsonProperty(required =false)
-    public final long id;
+    public final String id;
 
     @JsonProperty
     public final String username;
@@ -25,13 +25,13 @@ public class User implements Serializable{
 
 
     public User() {
-        this.id = -1;
+        this.id = "-1";
         this.username = "";
         this.email = "";
         this.teams = Collections.emptyList();
     }
 
-    public User(long id, String username, String email, List<Team> teams) {
+    public User(String id, String username, String email, List<Team> teams) {
         this.id = id;
         this.username = username;
         this.email = email;

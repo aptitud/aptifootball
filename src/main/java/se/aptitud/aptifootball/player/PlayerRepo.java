@@ -58,7 +58,7 @@ public class PlayerRepo extends AptiFootballRepo {
     }
 
     private Player convertDtoToPlayer(GetPlayersResultDto dto) {
-        return new Player(dto.getId(), dto.getName(), Position.valueOf(dto.getPosition()), dto.getPlayerNumber(), Collections.EMPTY_LIST);
+        return new Player(dto.getId(), dto.getName(), Position.valueOf(dto.getPosition().toUpperCase()), dto.getPlayerNumber(), Collections.EMPTY_LIST);
     }
 
 

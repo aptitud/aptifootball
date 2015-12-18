@@ -28,7 +28,7 @@ public class UserResource {
 
     public UserResource(AptiFootballConfig config) {
         this.config = config;
-        this.repo = new UserRepo(config.getAccessKey(), config.getUrl());
+        this.repo = new UserRepo(config.getAccessKey(), config.getUrl(), config.getDatabaseUrl());
     }
 
     @GET
@@ -41,7 +41,7 @@ public class UserResource {
     @POST
     @Timed
     public User create(@RequestBody User user){
-        User newUser = new User(new Random().nextLong(), user.username, user.email, Collections.emptyList());
+        User newUser = new User(Long.toString(new Random().nextLong()), user.username, user.email, Collections.emptyList());
         repo.addUser(newUser);
         return newUser;
     }

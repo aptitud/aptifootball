@@ -6,7 +6,7 @@ package se.aptitud.aptifootball.player;
 public enum Position {
     GOALKEEPER,
     DEFENDER,
-    MIDFIELD,
+    MIDFIELDER,
     FORWARD,
     SUBSTITUTE;
 }

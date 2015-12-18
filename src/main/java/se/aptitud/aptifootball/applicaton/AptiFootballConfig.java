@@ -13,10 +13,13 @@ public class AptiFootballConfig extends Configuration {
     @JsonProperty
     private String url;
 
+    @NotEmpty
+    @JsonProperty
+    private String databaseUrl;
+
     public void setUrl(String url) {
         this.url = url;
     }
-
     public void setAccessKey(String accessKey) {
         this.accessKey = accessKey;
     }
@@ -27,6 +30,13 @@ public class AptiFootballConfig extends Configuration {
         return url;
     }
 
+    public String getDatabaseUrl() {
+        return databaseUrl;
+    }
+
+    public void setDatabaseUrl(String databaseUrl) {
+        this.databaseUrl = databaseUrl;
+    }
 }
 
 
