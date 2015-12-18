@@ -21,22 +21,10 @@ public class UserRepoTest {
      static UserRepo repo;
 
 
-    @BeforeClass
-    public static void setUp(){
-        repo = new UserRepo("dummy", "dummy", "mongodb://192.168.59.103");
-    }
-
-
-    @AfterClass
-    public static void tearDown(){
-
-    }
-
-
-    //Local test. need to add embedded mongo to run on CI environment
     @Ignore
     @Test
     public void addingUserShouldStore(){
+        repo = new UserRepo("dummy", "dummy", "mongodb://192.168.59.103");
         User user = new User(null, "uname", "je@email.com", emptyList());
         repo.addUser(user);
         List<User> users = repo.listUsers();

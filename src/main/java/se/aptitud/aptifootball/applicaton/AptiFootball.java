@@ -5,6 +5,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import se.aptitud.aptifootball.league.LeagueResource;
 import se.aptitud.aptifootball.player.PlayerResource;
 import se.aptitud.aptifootball.user.UserResource;
 
@@ -22,6 +23,7 @@ public class AptiFootball extends Application<AptiFootballConfig> {
     public void run(AptiFootballConfig aptiFootballConfig, Environment environment) throws Exception {
         environment.jersey().register(new UserResource(aptiFootballConfig));
         environment.jersey().register(new PlayerResource(aptiFootballConfig));
+        environment.jersey().register(new LeagueResource(aptiFootballConfig));
 
         final Dynamic cors =
                 environment.servlets().addFilter("CORS", CrossOriginFilter.class);
