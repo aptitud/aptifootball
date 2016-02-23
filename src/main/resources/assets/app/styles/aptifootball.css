@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Oswald';
+  font-weight: 400;
+  font-style: normal;
+  src: url('fonts/Oswald/Oswald-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-style: normal;
+  src: url('fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-image: url('../images/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+h1,h2,h3,h4 {
+  font-family: 'Oswald', sans-serif;
+}
+
+.backend-status {
+  background: gray;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 5px;
+  border-top-right-radius: 10px;
+  font-size: 0.7em;
+}
+
+.backend-status.up {
+  background: #AED4B3;
+}
+
+.backend-status.down {
+  background: #D4AEAE;
+}
+
+.login {
+  margin-top: 80px;
+}
+
+@media only screen and (min-width : 768px) {
+
+  .login {
+    margin-top: 130px;
+  }
+
+}
+
+.panel-aptifooty {
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.panel-aptifooty .panel-title {
+  font-size: 25px;
+}
+
+@media only screen and (min-width : 768px) {
+
+  .panel-aptifooty .panel-title {
+    font-size: 50px;
+  }
+
+}

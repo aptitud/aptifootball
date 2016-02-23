@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app="footyApp">
+
+<head>
+  <title>AptiFooty</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="node_modules/angular-toastr/dist/angular-toastr.min.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="app/styles/aptifootball.css">
+
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/angular-ui-router/build/angular-ui-router.min.js"></script>
+  <script src="node_modules/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+
+  <script src="app/scripts/app.module.js"></script>
+  <script src="app/scripts/router.config.js"></script>
+  <script src="app/scripts/main.controller.js"></script>
+  <script src="app/scripts/ping/ping.service.js"></script>
+  <script src="app/scripts/user/user.controller.js"></script>
+  <script src="app/scripts/user/user.service.js"></script>
+  <script src="app/scripts/league/league.controller.js"></script>
+  <script src="app/scripts/league/league.service.js"></script>
+
+</head>
+
+<body ng-controller="MainController as main">
+  <div ng-show="main.backendStatus" class="backend-status" ng-class="main.backendStatus">Backend is {{main.backendStatus}}</div>
+  <div class="container">
+    <div ui-view></div>
+  </div>
+
+</body>
+
+</html>

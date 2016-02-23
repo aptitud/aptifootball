@@ -11,12 +11,12 @@
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
-            <version>0.8.2</version>
+            <version>0.9.2</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-views</artifactId>
-            <version>0.8.2</version>
+            <artifactId>dropwizard-assets</artifactId>
+            <version>0.9.2</version>
         </dependency>
         <dependency>
             <groupId>com.github.pabloo99.xmlsoccer</groupId>

@@ -1,0 +1,32 @@
+<div class="row centered-form">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-aptifooty">
+            <div class="panel-heading">
+                <h1 class="panel-title">Create league!</h1>
+            </div>
+            <div class="panel-body">
+                <form role="form" ng-submit="vm.registerLeague()">
+                    <div class="form-group">
+                        <input type="text" ng-model="vm.league.name" name="name" id="name" class="form-control input-lg"
+                               placeholder="League name" required>
+                    </div>
+                    <input type="submit" value="Create" ng-disabled="!vm.league.name"
+                           class="btn btn-lg btn-default btn-block">
+                </form>
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2" ng-show="vm.leagues.length">
+            <div class="panel panel-aptifooty">
+                <div class="panel-heading">
+                    <center><h1 class="panel-title">Your leagues</h1></center>
+                </div>
+                <div class="panel-body">
+                    <div ng-repeat="league in vm.leagues">
+                        <a href="#" ng-click="vm.getLeague(league.id)"><strong>{{league.name}}</strong></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
