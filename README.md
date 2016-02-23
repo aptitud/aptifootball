@@ -23,7 +23,7 @@ Starts the service which should now be accessible on http://localhost:8080/index
 
 There are a few configuration parameters that are required for the application to run.
 
-* **Server: - Root path **:  When bundling static assets with dropwizard, it is recommended that the rootPath of the rest resources is altered. THis needs to be `/api/` exactly (unless you change the js code callin it). It has to be configured either in the .yml file or command line `-Ddw.server.rootPath="/api/"`
+* **Server: - Root path**:  When bundling static assets with dropwizard, it is recommended that the rootPath of the rest resources is altered. THis needs to be `/api/` exactly (unless you change the js code callin it). It has to be configured either in the .yml file or command line `-Ddw.server.rootPath="/api/"`
 * **collectionName**: Specifies which collection in the mongoDB is used to store the documents. This is handy to use while testing etc `-Ddw.collectionName=...` Defaults to *aptifootball*
 * **accessKey**: The XML soccer access key that is associated with the account `-Ddw.accessKey=...`
 * **url** : The url to the XML soccerAPI `-Ddw.url=$XS_URL`. Defaults to *http://www.xmlsoccer.com/FootballDataDemo.asmx*
