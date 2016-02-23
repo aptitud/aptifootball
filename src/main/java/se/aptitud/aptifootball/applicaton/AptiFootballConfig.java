@@ -9,16 +9,15 @@ public class AptiFootballConfig extends Configuration {
     @JsonProperty
     private String accessKey;
 
-    @NotEmpty
     @JsonProperty
-    private String url;
+    private String url ="http://www.xmlsoccer.com/FootballDataDemo.asmx";
 
     @NotEmpty
     @JsonProperty
     private String databaseUrl;
 
     @JsonProperty
-    private String collectionName;
+    private String collectionName="aptifootball";
 
     public void setUrl(String url) {
         this.url = url;
