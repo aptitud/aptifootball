@@ -8,13 +8,14 @@
       vm.user = null;
 
       vm.registerUser = function() {
-//        UserService.createUser(vm.user)
-//          .then(onRegisterUserSuccess, onRegisterUserFailure);
+        UserService.createUser(vm.user)
+          .then(onRegisterUserSuccess, onRegisterUserFailure);
         console.log("Dummy user created: " + vm.user)
         $state.go('league');
       }
 
       function onRegisterUserSuccess(user) {
+        document.cookie="username="+user.username;
         toastr.success('Created user ' + user.username + ' (' + user.email + ')');
         $state.go('league');
       }
@@ -23,6 +24,8 @@
         console.log('Failed to create user ' + JSON.stringify(error))
         toastr.error('Failed to create user! Check browser log for more info...');
       }
+
+
 
     });
 
