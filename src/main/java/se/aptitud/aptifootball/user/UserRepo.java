@@ -37,6 +37,6 @@ public class UserRepo extends AptiFootballRepo {
     }
 
     private User createUserObject(Document mongoUser) {
-        return new User(mongoUser.get("_id").toString(), mongoUser.get("email").toString(), mongoUser.get("userName").toString(), null);
+        return new User(mongoUser.get("_id").toString(), mongoUser.get("userName").toString(), mongoUser.get("email").toString(), null);
     }
 }

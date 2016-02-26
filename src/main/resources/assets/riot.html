@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <title>Aptifootball</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <script src="https://cdn.jsdelivr.net/riot/2.3/riot+compiler.min.js"></script>
+    <script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="./node_modules/datatables/media/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet"        href="./node_modules/datatables/media/css/jquery.dataTables.min.css" >
+    <script type="text/javascript" src="./node_modules/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <link rel="stylesheet"        href="./node_modules/datatables.net-bs/css/dataTables.bootstrap.css" >
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./node_modules/jquery-storage-api/jquery.storageapi.js"></script>
+    <link rel="stylesheet"        href="./node_modules/bootstrap/dist/css/bootstrap.min.css" >
+
+    <script type="text/javascript" src="./js/rest-api.js"></script>
+    <script type="text/javascript" src="./js/version.js"></script>
+    <link href="./css/aptifootball.css" rel="stylesheet">
+
+
+
+    <style type="riot"></style>
+</head>
+<body>
+<aptimenu></aptimenu>
+<login></login>
+<div class="row">
+    <leagues></leagues>
+    <users></users>
+</div>
+
+<script src="tags/navigation/aptimenu.tag" type="riot/tag"></script>
+<script src="tags/login/login.tag" type="riot/tag"></script>
+<script src="tags/leagues.tag" type="riot/tag"></script>
+<script src="tags/users.tag" type="riot/tag"></script>
+<script>
+    riot.mount('*');
+
+    var currentUser;
+    CORS.ns=$.initNamespaceStorage('ns_name');
+    CORS.session = CORS.ns.sessionStorage // Namespace in sessionStorage
+
+    $(document).ready(function() {
+
+        console.log("STOREAGE  " + CORS.session.get('user'));
+
+    }); //document ready
+
+
+</script>
+</body>
+</html>

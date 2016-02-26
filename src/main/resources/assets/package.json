@@ -18,11 +18,12 @@
   },
   "homepage": "https://github.com/aptitud/aptifootball-ui",
   "dependencies": {
-    "angular": "1.4.8",
-    "angular-toastr": "^1.6.0",
-    "angular-ui-router": "^0.2.15",
     "bootstrap": "^3.3.6",
-    "jquery": "^2.1.4"
+    "jquery": "^2.1.4",
+    "riot" : "2.3.15",
+    "datatables": "1.10.8",
+    "datatables.net-bs": "1.10.11",
+    "jquery-storage-api": "1.8.1"
   },
   "devDependencies": {
     "live-server": "^0.8.2"

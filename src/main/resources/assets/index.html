@@ -1,34 +1,37 @@
-<!doctype html>
-<html ng-app="footyApp">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>AptiFooty</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-  <link rel="stylesheet" type="text/css" href="node_modules/angular-toastr/dist/angular-toastr.min.css">
-  <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="app/styles/aptifootball.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/riot/2.3.15/riot.min.js"></script>
+    <script type="text/javascript" src="./libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="./libs/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="./libs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./libs/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="./libs/moment.min.js"></script>
+    <script type="text/javascript" src="./libs/moment-duration-format.js"></script>
+    <script type="text/javascript" src="./libs/jquery-storeage.js"></script>
+    <script type="text/javascript" src="./js/rest-api.js"></script>
+    <script type="text/javascript" src="./js/version.js"></script>
+    <title>Aptifootball</title>
 
-  <script src="node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="node_modules/angular/angular.min.js"></script>
-  <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
-  <script src="node_modules/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--
+        <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/aptifootball.css" rel="stylesheet">
 
-  <script src="app/scripts/app.module.js"></script>
-  <script src="app/scripts/router.config.js"></script>
-  <script src="app/scripts/main.controller.js"></script>
-  <script src="app/scripts/ping/ping.service.js"></script>
-  <script src="app/scripts/user/user.controller.js"></script>
-  <script src="app/scripts/user/user.service.js"></script>
-  <script src="app/scripts/league/league.controller.js"></script>
-  <script src="app/scripts/league/league.service.js"></script>
-
+    <link href="./css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="./css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 
-<body ng-controller="MainController as main">
-  <nav class="navbar navbar-default">
+<body class="padding-top: 50px;" style="pading-left: 10px, padding-right: 10px">
+
+<nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -38,26 +41,226 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" href="#">Brand</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">stuff</a></li>
+                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
             </ul>
-            <p ng-show="main.currentUser"  class="navbar-text pull-right"> User : {{main.currentUser}}</p>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">stuff</a></li>
+                <p class="navbar-text" id="user-logged-in">
+                    Signed in as <label id="current-user"></label>
+                    <a href="#" id="btn-logout" class="btn btn-info">logout</a>
+                </p>
 
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
-  </nav>
-  <div ng-show="main.backendStatus" class="backend-status" ng-class="main.backendStatus">Backend is {{main.backendStatus}}</div>
-  <div class="container">
-    <div ui-view></div>
-  </div>
+</nav>
+
+<div id="div-new-user">
+    <div class="row centered-form login">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-aptifooty">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Aptifooty wants you!</h1>
+                </div>
+                <div class="panel-body" id="div-user-register">
+                    <form role="form" id="frm-new-user">
+                        <div class="form-group">
+                            <input type="text" name="username" id="username" class="form-control input-lg" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email address" required>
+                        </div>
+                        <input type="submit" value="Register" id="btn-new-user" class="btn btn-lg btn-default btn-block">
+                    </form>
+                    <a href="#" id="lnk-user-login">Login </a>
+                </div>
+                <div class="panel-body" id="div-user-login">
+                    <form role="form" id="frm-login">
+                        <div class="form-group">
+                            <input type="text" name="username" id="login-username" class="form-control input-lg" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" id="login-password" class="form-control input-lg" placeholder="Password" required>
+                        </div>
+                        <input type="submit" value="Login" id="btn-login-user" class="btn btn-lg btn-default btn-block">
+                    </form>
+                    <a href="#" id="lnk-user-register">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="div-manage-leagues">
+    <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-1">
+        <div class="panel panel-aptifooty">
+            <div class="panel-heading">
+                <h1 class="panel-title">leagues</h1>
+            </div>
+
+            <div class="panel-body">
+                <ul id="ul-leagues" class="list-group">
+                    <li class="list-group-item panel-aptifooty"><a href="#">...</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-1">
+        <div class="panel panel-aptifooty">
+            <div class="panel-heading">
+                <h1 class="panel-title">Users</h1>
+            </div>
+
+            <div class="panel-body">
+                <table id="tbl-users" class="display" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
+<script type="text/javascript">
+    var currentUser;
+    ns=$.initNamespaceStorage('ns_name');
+    var session = ns.sessionStorage // Namespace in sessionStorage
 
+    $(document).ready(function() {
+
+        console.log("STOREAGE  " + session.get('user'));
+
+      $("#lnk-user-register").on("click", function(){
+         $("#div-user-login").hide();
+        $("#div-user-register").show();
+
+      });
+      $("#lnk-user-login").on("click", function(){
+        $("#div-user-login").show();
+        $("#div-user-register").hide();
+
+      });
+
+
+      $("#btn-new-user").on("click", fnNewUser); // create mission on click
+      $("#btn-login-user").on("click", fnLogin);
+      $("#btn-logout").on("click", fnLogout);
+      $("#btn-new-user").on("click", fnNewUser); // create mission on click
+      $("#user-logged-in").hide();
+      $("#div-manage-leagues").hide();
+      $("#div-manage-leagues").hide();
+      $("#div-user-login").hide();
+      $("#div-user-register").show();
+      $('#tbl-users').DataTable( {
+        "ajax": {
+            "url": "http://localhost:8080/api/aptifootball/user/list",
+            "dataSrc": ""
+        },
+        "columns": [
+            { "data": "username" },
+        ]
+
+    } );
+
+      //fnShowUsers();
+
+    }); //document ready
+
+    var fnLogin = function(){
+        console.log("login");
+
+        currentUser=JSON.parse('{"id":"56cc93487ef13f80d254f899","username":"johan.elmstrom@apti.tud","email":"jelm","teams":null}');
+        $("#div-new-user").hide();
+        $("#div-manage-leagues").show();
+
+        $("#user-logged-in").show();
+        $("#current-user").text(currentUser.username);
+        session.set('user', currentUser);
+
+        console.log("STOREAGE  " + session.get('user').username);
+        event.stopPropagation();
+        return false;
+    };
+
+    var fnLogout = function(){
+        currentUser=null;
+        $("#user-logged-in").hide();
+        $("#current-user").text("");
+        $("#div-new-user").show();
+        $("#div-manage-leagues").hide();
+        session.remove('user');
+
+        console.log("STOREAGE  " + session.get('user'));
+    };
+
+    var fnShowUsers = function(){
+
+
+        CORS.listUsers(function(users){
+            var userList = $("#ul-users");
+            userList.empty();
+            console.log(users);
+            $.each(users, function( index, value ) {
+              console.log( index + ": " + value );
+              userList.append('<li class="list-group-item panel-aptifooty"><a href="#">'+value.username+'</a></li>');
+            });
+        });
+    };
+
+    var fnNewUser = function(event) {
+
+            var values = {};
+            $.each($('#frm-new-user').serializeArray(), function(i, field) {
+                values[field.name] = field.value;
+            });
+            console.log("new user function");
+
+            currentUser=JSON.parse('{"id":"56cc93487ef13f80d254f899","username":"johan.elmstrom@apti.tud","email":"jelm","teams":null}');
+
+            CORS.newUser(values)
+                    .done(function(response){
+                        console.log("new user done!");
+                        $("#user-logged-in").show();
+                        $("#current-user").text(values["username"]);
+
+                        CORS.listLeagues(function(leagues) {
+                             console.log(leagues);
+                             var lgs = $("#ul-leagues");
+                             lgs.empty();
+
+                             $.each(leagues, function(pos) {
+                                var data = leagues[pos]
+                                console.log("item is :" + data.name);
+                                lgs.append('<li class="list-group-item"><a href="#">'+data.name+'</a></li>');
+
+                             });
+
+                        });
+                        $("#div-new-user").hide();
+                        $("#div-manage-leagues").show();
+                    })
+                    .fail(function(response){
+                        console.log(response);
+                    });
+        event.stopPropagation();
+        return false;
+   };
+
+</script>
 </html>
